@@ -6,6 +6,7 @@ import RootLayout from '@/layout/RootLayout';
 
 // Application Pages
 import HomePage from '@/pages/HomePage';
+import RootErrorBoundary from '@/pages/RootErrorBoundary';
 
 // Root Router Children Routes
 const RootChildrenRoutes = [
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <RootLayout />,
+    errorElement: <RootErrorBoundary />,
     children: RootChildrenRoutes,
   },
 ]);
