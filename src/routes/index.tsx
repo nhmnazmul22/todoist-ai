@@ -6,6 +6,7 @@ import RootLayout from '@/layout/RootLayout';
 
 // Application Pages
 import HomePage from '@/pages/HomePage';
+import RegisterPage from '@/pages/RegisterPage';
 import RootErrorBoundary from '@/pages/RootErrorBoundary';
 
 // Root Router Children Routes
@@ -13,6 +14,10 @@ const RootChildrenRoutes = [
   {
     index: true,
     element: <HomePage />,
+  },
+  {
+    path: 'register',
+    element: <RegisterPage />,
   },
 ];
 
