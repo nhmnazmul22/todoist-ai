@@ -10,7 +10,7 @@ const HomePage = () => {
       <section>
         <div className='container !px-8 grid grid-cols-1 gap-8 items-center xl:grid-cols-[1fr_1.5fr]'>
           <div className='flex flex-col items-center text-center space-y-5 lg:items-start lg:text-left'>
-            <h1 className='text-4xl md:text-5xl lg:6xl xl:5xl 2xl:text-6xl font-semibold max-w-[22ch]'>
+            <h1 className='text-4xl md:text-5xl lg:6xl xl:5xl 2xl:text-6xl 2xl:leading-18 font-semibold max-w-[22ch]'>
               A Smarter Way to Get Things Done.
               <span className='inline-flex bg-gradient-to-t from-primary/50 to-primary/20 rounded-full px-2 overflow-hidden'>
                 AI-powered
