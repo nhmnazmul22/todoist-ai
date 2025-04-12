@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 type HeadProps = {
   title: string;
@@ -6,9 +6,11 @@ type HeadProps = {
 
 const Head: React.FC<HeadProps> = ({ title }) => {
   return (
-    <Helmet>
-      <title>{title}</title>
-    </Helmet>
+    <HelmetProvider>
+      <Helmet>
+        <title>{title}</title>
+      </Helmet>
+    </HelmetProvider>
   );
 };
 
