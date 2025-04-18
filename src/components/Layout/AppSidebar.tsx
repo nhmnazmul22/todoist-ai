@@ -1,5 +1,10 @@
 import Logo from '@/components/common/Logo';
 import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
+import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
@@ -13,13 +18,16 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import TaskForm from '@/components/ui/TaskFormDialog';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { SIDEBAR_LINKS } from '@/constant';
 import { UserButton } from '@clerk/clerk-react';
-import { Collapsible } from '@radix-ui/react-collapsible';
 import { ChevronRight, Plus, PlusCircle } from 'lucide-react';
 import { Link } from 'react-router';
-import { CollapsibleContent, CollapsibleTrigger } from '../ui/collapsible';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 
 const AppSidebar = () => {
   return (
@@ -37,9 +45,11 @@ const AppSidebar = () => {
           <SidebarMenu>
             {/* Add task button */}
             <SidebarMenuItem>
-              <SidebarMenuButton className='cursor-pointer'>
-                <PlusCircle /> Add Task
-              </SidebarMenuButton>
+              <TaskForm>
+                <SidebarMenuButton className='cursor-pointer'>
+                  <PlusCircle /> Add Task
+                </SidebarMenuButton>
+              </TaskForm>
             </SidebarMenuItem>
 
             {/* Sidebar Menu items */}
@@ -69,7 +79,7 @@ const AppSidebar = () => {
                 </SidebarGroupLabel>
 
                 <Tooltip>
-                  <TooltipTrigger>
+                  <TooltipTrigger asChild>
                     <SidebarGroupAction aria-label='add Todo'>
                       <Plus />
                     </SidebarGroupAction>
