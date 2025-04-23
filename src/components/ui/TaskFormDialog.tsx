@@ -1,8 +1,8 @@
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import TaskForm from '@/components/ui/TaskForm';
-import { Task } from '@/types';
+import { TaskFormType } from '@/types';
 import { startOfToday } from 'date-fns';
-import { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 import { useFetcher, useLocation } from 'react-router';
 
 const TaskFormDialog: React.FC<PropsWithChildren> = ({ children }) => {
@@ -11,7 +11,7 @@ const TaskFormDialog: React.FC<PropsWithChildren> = ({ children }) => {
   const location = useLocation();
   const fetcher = useFetcher();
 
-  const submitData = (formData: Task) => {
+  const submitData = (formData: TaskFormType) => {
     fetcher.submit(JSON.stringify(formData), {
       method: 'POST',
       action: '/app',
@@ -20,6 +20,22 @@ const TaskFormDialog: React.FC<PropsWithChildren> = ({ children }) => {
 
     setOpen(false);
   };
+
+  useEffect(() => {
+    const listener = (event: KeyboardEvent) => {
+      if (event.key === 'q') {
+        const target = event.target as HTMLElement;
+        if (target.localName === 'textarea') return;
+
+        event.preventDefault();
+        setOpen(true);
+      }
+    };
+
+    document.addEventListener('keydown', listener);
+
+    return () => document.removeEventListener('keydown', listener);
+  }, []);
 
   return (
     <Dialog

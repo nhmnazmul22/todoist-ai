@@ -7,8 +7,8 @@ import { Button } from '@/components/ui/button';
 
 const Header = () => {
   return (
-    <header className='fixed top-0 left-0 w-full p-4 '>
-      <div className='container h-16 rounded-xl flex items-center justify-between border backdrop-blur-3xl'>
+    <header className='fixed top-0 left-0 w-full p-4 z-[9999]'>
+      <div className='container bg-background/75 h-16 rounded-xl flex items-center justify-between border backdrop-blur-3xl'>
         <Link to='/'>
           <Logo />
         </Link>

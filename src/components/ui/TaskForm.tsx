@@ -35,7 +35,13 @@ import {
 import { cn, formatDate, getDueDateColorClass } from '@/lib/utils';
 import * as chrono from 'chrono-node';
 import { ClassValue } from 'clsx';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import {
+  ChangeEvent,
+  KeyboardEventHandler,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 
 type TaskFormProps = {
   defaultFormData: TaskFormType;
@@ -111,6 +117,16 @@ const TaskForm: React.FC<TaskFormProps> = ({
     setDueDate(null);
   }, [content, formData, onSubmit]);
 
+  // Handle the enter key down event
+  const handleEnterKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = (
+    event,
+  ) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleSubmit();
+    }
+  };
+
   return (
     <Card className='focus-within:border-foreground/30 p-0 bg-transparent'>
       <CardContent className='p-2'>
@@ -120,6 +136,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
           autoFocus
           value={content}
           onInput={setTextValue}
+          onKeyDown={handleEnterKeyDown}
         />
         <div className='border max-w-max rounded-2xl'>
           <Popover
