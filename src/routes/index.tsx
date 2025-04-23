@@ -13,6 +13,9 @@ import LoginPage from '@/pages/LoginPage';
 import RegisterPage from '@/pages/RegisterPage';
 import RootErrorBoundary from '@/pages/RootErrorBoundary';
 
+// Application actions
+import AppAction from '@/routes/actions/appActions';
+
 // Root Router Children Routes
 const RootChildrenRoutes: RouteObject[] = [
   {
@@ -54,6 +57,7 @@ const router = createBrowserRouter([
     path: '/app',
     element: <AppLayout />,
     children: AppChildrenRoutes,
+    action: AppAction,
   },
 ]);
 
