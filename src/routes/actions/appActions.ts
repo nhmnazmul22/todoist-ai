@@ -1,9 +1,29 @@
+import { database } from '@/lib/appwrite';
+import { generateId, getUserId } from '@/lib/utils';
 import { Task } from '@/types';
-import { ActionFunction } from 'react-router';
+import { ActionFunction, redirect } from 'react-router';
+
+// Environment Variables
+const APPWRITE_DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID;
 
 const createTask = async (data: Task) => {
   try {
-    console.log(data);
+    const documentId = generateId();
+    const userId = getUserId();
+    
+    if (!userId) {
+      return redirect('/login');
+    }
+
+    return await database.createDocument(
+      APPWRITE_DATABASE_ID,
+      'tasks',
+      documentId,
+      {
+        ...data,
+        userId: userId,
+      },
+    );
   } catch (err) {
     console.log(err);
   }

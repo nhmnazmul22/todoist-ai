@@ -8,6 +8,7 @@ import {
   isTomorrow,
   startOfToday,
 } from 'date-fns';
+import { redirect } from 'react-router';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
@@ -69,4 +70,14 @@ export const getDueDateColorClass = (
   if (isTomorrow(dueDate) && !completed) {
     return 'text-amber-500';
   }
+};
+
+// Generate unique ID
+export const generateId = () => {
+  return Math.random().toString(36) + Date.now().toString(36);
+};
+
+export const getUserId = () => {
+  const userId = localStorage.getItem('ClerkUserId');
+  return userId;
 };
