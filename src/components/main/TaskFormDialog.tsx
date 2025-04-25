@@ -1,5 +1,5 @@
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-import TaskForm from '@/components/ui/TaskForm';
+import TaskForm from '@/components/main/TaskForm';
 import { TaskFormType } from '@/types';
 import { startOfToday } from 'date-fns';
 import { PropsWithChildren, useEffect, useState } from 'react';

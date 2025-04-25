@@ -18,7 +18,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import TaskForm from '@/components/ui/TaskFormDialog';
+import TaskForm from '@/components/main/TaskFormDialog';
 import {
   Tooltip,
   TooltipContent,
@@ -40,7 +40,7 @@ const AppSidebar = () => {
           <Logo />
         </Link>
       </SidebarHeader>
-      <SidebarContent className='px-2'>
+      <SidebarContent className='px-2 py-3'>
         <SidebarGroupContent>
           <SidebarMenu>
             {/* Add task button */}
