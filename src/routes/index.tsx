@@ -15,6 +15,7 @@ import RootErrorBoundary from '@/pages/RootErrorBoundary';
 
 // Application actions
 import AppAction from '@/routes/actions/appActions';
+import InboxLoader from './loaders/InboxLoader';
 
 // Root Router Children Routes
 const RootChildrenRoutes: RouteObject[] = [
@@ -42,6 +43,7 @@ const AppChildrenRoutes: RouteObject[] = [
   {
     path: 'inbox',
     element: <InboxPage />,
+    loader: InboxLoader,
   },
 ];
 

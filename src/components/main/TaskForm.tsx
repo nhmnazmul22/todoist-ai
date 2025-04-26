@@ -44,11 +44,11 @@ import {
 } from 'react';
 
 type TaskFormProps = {
-  defaultFormData: TaskFormType;
-  className: ClassValue;
+  defaultFormData?: TaskFormType;
+  className?: ClassValue;
   mode: 'create' | 'edit';
-  onCancel: () => void;
-  onSubmit: (formData: TaskFormType) => void;
+  onCancel?: () => void;
+  onSubmit?: (formData: TaskFormType) => void;
 };
 
 const DEFAULT_FORM_DATA = {
@@ -128,7 +128,12 @@ const TaskForm: React.FC<TaskFormProps> = ({
   };
 
   return (
-    <Card className='focus-within:border-foreground/30 p-0 bg-transparent'>
+    <Card
+      className={cn(
+        'focus-within:border-foreground/30 p-0 bg-transparent',
+        className,
+      )}
+    >
       <CardContent className='p-2'>
         <Textarea
           className='!border-0 !ring-0 !bg-transparent text-sm lg:text-base'
