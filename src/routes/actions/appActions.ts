@@ -10,7 +10,7 @@ const createTask = async (data: Task) => {
   try {
     const documentId = generateId();
     const userId = getUserId();
-    
+
     if (!userId) {
       return redirect('/login');
     }
@@ -29,11 +29,34 @@ const createTask = async (data: Task) => {
   }
 };
 
+const updateTask = async (data: Task) => {
+  const documentId = data.id;
+
+  if (!documentId) throw new Error('Task id not found!');
+
+  delete data.id;
+
+  try {
+    return await database.updateDocument(
+      APPWRITE_DATABASE_ID,
+      'tasks',
+      documentId,
+      data,
+    );
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const appAction: ActionFunction = async ({ request }) => {
   const data = (await request.json()) as Task;
 
   if (request.method === 'POST') {
     return await createTask(data);
+  }
+
+  if (request.method === 'PUT') {
+    return await updateTask(data);
   }
 };
 
