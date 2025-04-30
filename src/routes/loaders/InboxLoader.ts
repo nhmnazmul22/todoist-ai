@@ -11,7 +11,7 @@ const getTasks = async () => {
 
     return await database.listDocuments(APPWRITE_DATABASE_ID, 'tasks', [
       Query.equal('completed', false),
-      Query.isNull('projectId'),
+      Query.isNull('project'),
       Query.equal('userId', userId),
     ]);
   } catch (err) {
@@ -21,7 +21,7 @@ const getTasks = async () => {
 
 const InboxLoader: LoaderFunction = async () => {
   const tasks = await getTasks();
-  
+
   return { tasks };
 };
 

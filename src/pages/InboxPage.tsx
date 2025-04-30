@@ -16,13 +16,14 @@ const InboxPage = () => {
   const { tasks } = useLoaderData<{
     tasks: Models.DocumentList<Models.Document>;
   }>();
-  console.log(tasks);
+
   const handleTaskFormSubmit = (formData: TaskFormType) => {
     fetcher.submit(JSON.stringify(formData), {
       action: '/app',
       method: 'POST',
       encType: 'application/json',
     });
+    setShowTaskForm(false);
   };
 
   return (
@@ -39,14 +40,14 @@ const InboxPage = () => {
         <PageList>
           {tasks.total > 0 &&
             tasks.documents.map(
-              ({ $id, content, completed, due_date, projectId }) => (
+              ({ $id, content, completed, due_date, project }) => (
                 <TaskCard
                   key={$id}
                   id={$id}
                   content={content}
                   completed={completed}
                   dueDate={due_date}
-                  project={projectId}
+                  project={project}
                 />
               ),
             )}

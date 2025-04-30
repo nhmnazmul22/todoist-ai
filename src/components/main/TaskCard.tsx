@@ -1,8 +1,10 @@
 import { cn, formatDate, getDueDateColorClass } from '@/lib/utils';
+import { Task, TaskFormType } from '@/types';
 import { Models } from 'appwrite';
 import { CalendarDays, Check, Edit, Hash, Inbox, Trash2 } from 'lucide-react';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useFetcher } from 'react-router';
+import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardFooter } from '../ui/card';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
@@ -25,6 +27,44 @@ const TaskCard: React.FC<TaskCardProps> = ({
 }) => {
   const [showTaskForm, setShowTaskForm] = useState(false);
   const fetcher = useFetcher();
+  const fetcherTask = fetcher.json as Task;
+
+  const task: Task = Object.assign(
+    {
+      id,
+      content,
+      completed,
+      due_date: dueDate,
+      project,
+    },
+    fetcherTask,
+  );
+
+  // Handle the task update form
+  const handleTaskUpdateForm = (formDate: TaskFormType) => {
+    fetcher.submit(JSON.stringify(formDate), {
+      action: '/app',
+      method: 'PUT',
+      encType: 'application/json',
+    });
+
+    setShowTaskForm(false);
+  };
+
+  // Handle the task complete
+  const handleTaskComplete = useCallback(
+    async (complete: boolean) => {
+      return await fetcher.submit(
+        JSON.stringify({ id: task.id, completed: complete }),
+        {
+          action: '/app',
+          method: 'PUT',
+          encType: 'application/json',
+        },
+      );
+    },
+    [task.id, fetcher],
+  );
 
   return (
     <>
@@ -35,18 +75,29 @@ const TaskCard: React.FC<TaskCardProps> = ({
             size='icon'
             className={cn(
               'group/button rounded-full w-5 h-5 mt-2',
-              completed && 'bg-border',
+              task.completed && 'bg-border',
             )}
             role='checkbox'
-            aria-checked={completed}
-            aria-label={completed ? 'Task completed' : 'Task not completed'}
+            aria-checked={task.completed}
+            aria-label={
+              task.completed ? 'Task completed' : 'Task not completed'
+            }
             aria-describedby='task-content'
+            onClick={async () => {
+              await handleTaskComplete(!task.completed);
+              toast('1 Task Competed', {
+                action: {
+                  label: 'Undo',
+                  onClick: () => handleTaskComplete(false),
+                },
+              });
+            }}
           >
             <Check
               strokeWidth={4}
               className={cn(
                 '!w-3 !h-3 text-muted-foreground group-hover/button:opacity-100 transition-opacity',
-                completed ? 'opacity-100' : 'opacity-0',
+                task.completed ? 'opacity-100' : 'opacity-0',
               )}
             />
           </Button>
@@ -56,32 +107,32 @@ const TaskCard: React.FC<TaskCardProps> = ({
                 id='task-content'
                 className={cn(
                   'text-sm max-md:me-16',
-                  completed && 'text-muted-foreground line-through',
+                  task.completed && 'text-muted-foreground line-through',
                 )}
               >
-                {content}
+                {task.content}
               </p>
             </CardContent>
 
             <CardFooter className='p-0 flex gap-4'>
-              {dueDate && (
+              {task.due_date && (
                 <div
                   className={cn(
                     'flex items-center gap-1 text-xs text-muted-foreground',
-                    getDueDateColorClass(dueDate, completed),
+                    getDueDateColorClass(task.due_date, task.completed),
                   )}
                 >
                   <CalendarDays size={14} />
-                  {formatDate(dueDate)}
+                  {formatDate(task.due_date)}
                 </div>
               )}
 
               <div className='grid grid-cols-[minmax(0,180px)_max-content] items-center gap-1 text-sm text-muted-foreground ms-auto'>
                 <div className='truncate text-right'>
-                  {project?.name || 'Inbox'}
+                  {task.project?.name || 'Inbox'}
                 </div>
 
-                {project ? (
+                {task.project ? (
                   <Hash
                     size={14}
                     className='text-muted-foreground'
@@ -94,7 +145,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
                 )}
               </div>
               <div className='flex space-x-3 absolute right-0 top-0 opacity-0 max-md:opacity-100 transition-opacity duration-200 group-hover/card:opacity-100'>
-                {!completed && (
+                {!task.completed && (
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button
@@ -134,22 +185,12 @@ const TaskCard: React.FC<TaskCardProps> = ({
       {showTaskForm && (
         <TaskForm
           defaultFormData={{
-            id,
-            content,
-            due_date: dueDate,
-            projectId: project && project.$id,
+            ...task,
+            project: project && project.$id,
           }}
           mode='edit'
           onCancel={() => setShowTaskForm(false)}
-          onSubmit={(formDate) => {
-            fetcher.submit(JSON.stringify(formDate), {
-              action: '/app',
-              method: 'PUT',
-              encType: 'application/json',
-            });
-
-            setShowTaskForm(false);
-          }}
+          onSubmit={handleTaskUpdateForm}
         />
       )}
     </>

@@ -54,7 +54,7 @@ type TaskFormProps = {
 const DEFAULT_FORM_DATA = {
   content: '',
   due_date: null,
-  projectId: null,
+  project: null,
 };
 
 const TaskForm: React.FC<TaskFormProps> = ({
@@ -66,7 +66,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
 }) => {
   const [content, setContent] = useState(defaultFormData.content);
   const [dueDate, setDueDate] = useState(defaultFormData.due_date);
-  const [projectId, setProjectId] = useState(defaultFormData.projectId);
+  const [project, setProject] = useState(defaultFormData.project);
 
   const [projectName, setProjectName] = useState('');
   const [projectColorHex, setProjectColorHex] = useState('');
@@ -95,10 +95,10 @@ const TaskForm: React.FC<TaskFormProps> = ({
         ...prevData,
         content: content,
         due_date: dueDate,
-        projectId: projectId,
+        project: project,
       };
     });
-  }, [content, dueDate, projectId]);
+  }, [content, dueDate, project]);
 
   // Set deu date from text
   useEffect(() => {
