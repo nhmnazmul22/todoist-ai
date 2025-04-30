@@ -1,3 +1,14 @@
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { cn, formatDate, getDueDateColorClass } from '@/lib/utils';
 import { Task, TaskFormType } from '@/types';
 import { Models } from 'appwrite';
@@ -65,6 +76,16 @@ const TaskCard: React.FC<TaskCardProps> = ({
     },
     [task.id, fetcher],
   );
+
+  // Handle the delete task
+  const handleDeleteTask = () => {
+    fetcher.submit(JSON.stringify({ id: task.id }), {
+      action: '/app',
+      method: 'DELETE',
+      encType: 'application/json',
+    });
+    toast('Task Delete Successful');
+  };
 
   return (
     <>
@@ -163,20 +184,44 @@ const TaskCard: React.FC<TaskCardProps> = ({
                   </Tooltip>
                 )}
 
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant='ghost'
-                      className='text-muted-foreground w-6 h-6'
-                      aria-label='Remove Task'
-                    >
-                      <Trash2 />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Remove Task</p>
-                  </TooltipContent>
-                </Tooltip>
+                <AlertDialog>
+                  <Tooltip>
+                    <AlertDialogTrigger asChild>
+                      <TooltipTrigger asChild>
+                        <Button
+                          variant='ghost'
+                          className='text-muted-foreground w-6 h-6'
+                          aria-label='Remove Task'
+                        >
+                          <Trash2 />
+                        </Button>
+                      </TooltipTrigger>
+                    </AlertDialogTrigger>
+                    <TooltipContent>
+                      <p>Remove Task</p>
+                    </TooltipContent>
+                  </Tooltip>
+
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you Sure to Delete task?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        The <strong>"{task.content}"</strong> task will be permanently deleted.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        className='bg-red-600 hover:bg-red-700'
+                        onClick={handleDeleteTask}
+                      >
+                        Delete
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             </CardFooter>
           </Card>
