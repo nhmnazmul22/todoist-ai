@@ -9,12 +9,17 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { cn, formatDate, getDueDateColorClass } from '@/lib/utils';
+import {
+  cn,
+  formatDate,
+  getDueDateColorClass,
+  truncateText,
+} from '@/lib/utils';
 import { Task, TaskFormType } from '@/types';
 import { Models } from 'appwrite';
 import { CalendarDays, Check, Edit, Hash, Inbox, Trash2 } from 'lucide-react';
 import { useCallback, useState } from 'react';
-import { useFetcher } from 'react-router';
+import { useFetcher, useLocation } from 'react-router';
 import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardFooter } from '../ui/card';
@@ -38,6 +43,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
 }) => {
   const [showTaskForm, setShowTaskForm] = useState(false);
   const fetcher = useFetcher();
+  const location = useLocation();
   const fetcherTask = fetcher.json as Task;
 
   const task: Task = Object.assign(
@@ -127,7 +133,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
               <p
                 id='task-content'
                 className={cn(
-                  'text-sm max-md:me-16',
+                  'text-sm max-md:me-16 max-w-[90%]',
                   task.completed && 'text-muted-foreground line-through',
                 )}
               >
@@ -136,7 +142,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
             </CardContent>
 
             <CardFooter className='p-0 flex gap-4'>
-              {task.due_date && (
+              {task.due_date && location.pathname !== '/app/today' && (
                 <div
                   className={cn(
                     'flex items-center gap-1 text-xs text-muted-foreground',
@@ -148,23 +154,27 @@ const TaskCard: React.FC<TaskCardProps> = ({
                 </div>
               )}
 
-              <div className='grid grid-cols-[minmax(0,180px)_max-content] items-center gap-1 text-sm text-muted-foreground ms-auto'>
-                <div className='truncate text-right'>
-                  {task.project?.name || 'Inbox'}
-                </div>
+              {location.pathname !== '/app/inbox' &&
+                location.pathname !== `/app/project/${project?.$id}` && (
+                  <div className='grid grid-cols-[minmax(0,180px)_max-content] items-center gap-1 text-sm text-muted-foreground ms-auto'>
+                    <div className='truncate text-right'>
+                      {task.project?.name || 'Inbox'}
+                    </div>
 
-                {task.project ? (
-                  <Hash
-                    size={14}
-                    className='text-muted-foreground'
-                  />
-                ) : (
-                  <Inbox
-                    size={14}
-                    className='text-muted-foreground'
-                  />
+                    {task.project ? (
+                      <Hash
+                        size={14}
+                        className='text-muted-foreground'
+                      />
+                    ) : (
+                      <Inbox
+                        size={14}
+                        className='text-muted-foreground'
+                      />
+                    )}
+                  </div>
                 )}
-              </div>
+
               <div className='flex space-x-3 absolute right-0 top-0 opacity-0 max-md:opacity-100 transition-opacity duration-200 group-hover/card:opacity-100'>
                 {!task.completed && (
                   <Tooltip>
@@ -208,7 +218,8 @@ const TaskCard: React.FC<TaskCardProps> = ({
                         Are you Sure to Delete task?
                       </AlertDialogTitle>
                       <AlertDialogDescription>
-                        The <strong>"{task.content}"</strong> task will be permanently deleted.
+                        The <strong>"{truncateText(task.content, 48)}"</strong>{' '}
+                        task will be permanently deleted.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>

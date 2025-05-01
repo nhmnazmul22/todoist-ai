@@ -80,3 +80,11 @@ export const getUserId = () => {
   const userId = localStorage.getItem('ClerkUserId');
   return userId;
 };
+
+// truncate the long text
+export const truncateText = (str: string, maxLength: number): string => {
+  if (str.length > maxLength) {
+    return `${str.slice(0, maxLength - 1)}...`;
+  }
+  return str;
+};

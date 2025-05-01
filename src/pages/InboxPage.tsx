@@ -5,6 +5,7 @@ import TaskCreateButton from '@/components/main/TaskCreateButton';
 import TaskEmptyState from '@/components/main/TaskEmptyState';
 import TaskForm from '@/components/main/TaskForm';
 import TopAppBar from '@/components/main/TopAppBar';
+import TaskCardSkeleton from '@/components/skeleton/TaskCardSkeleton';
 import { TaskFormType } from '@/types';
 import { Models } from 'appwrite';
 import { useState } from 'react';
@@ -52,10 +53,14 @@ const InboxPage = () => {
               ),
             )}
 
+          {fetcher.state !== 'idle' && <TaskCardSkeleton />}
+
           {!showTaskForm && (
             <TaskCreateButton onClick={() => setShowTaskForm(true)} />
           )}
-          {!showTaskForm && <TaskEmptyState type='inbox' />}
+
+          {!tasks.total && !showTaskForm && <TaskEmptyState type='inbox' />}
+
           {showTaskForm && (
             <TaskForm
               mode='create'
