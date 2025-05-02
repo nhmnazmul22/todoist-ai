@@ -14,8 +14,10 @@ import RegisterPage from '@/pages/RegisterPage';
 import RootErrorBoundary from '@/pages/RootErrorBoundary';
 
 // Application actions
+import TodayPage from '@/pages/TodayPage';
 import AppAction from '@/routes/actions/appActions';
 import InboxLoader from './loaders/InboxLoader';
+import TodayTaskLoader from './loaders/TodayTaskLoader';
 
 // Root Router Children Routes
 const RootChildrenRoutes: RouteObject[] = [
@@ -44,6 +46,11 @@ const AppChildrenRoutes: RouteObject[] = [
     path: 'inbox',
     element: <InboxPage />,
     loader: InboxLoader,
+  },
+  {
+    path: 'today',
+    element: <TodayPage />,
+    loader: TodayTaskLoader,
   },
 ];
 

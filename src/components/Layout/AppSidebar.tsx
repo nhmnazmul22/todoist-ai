@@ -1,4 +1,5 @@
 import Logo from '@/components/common/Logo';
+import TaskForm from '@/components/main/TaskFormDialog';
 import {
   Collapsible,
   CollapsibleContent,
@@ -17,8 +18,8 @@ import {
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from '@/components/ui/sidebar';
-import TaskForm from '@/components/main/TaskFormDialog';
 import {
   Tooltip,
   TooltipContent,
@@ -27,9 +28,12 @@ import {
 import { SIDEBAR_LINKS } from '@/constant';
 import { UserButton } from '@clerk/clerk-react';
 import { ChevronRight, Plus, PlusCircle } from 'lucide-react';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 
 const AppSidebar = () => {
+  const location = useLocation();
+  const { isMobile, setOpenMobile } = useSidebar();
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -55,7 +59,13 @@ const AppSidebar = () => {
             {/* Sidebar Menu items */}
             {SIDEBAR_LINKS.map((item, index) => (
               <SidebarMenuItem key={index}>
-                <SidebarMenuButton asChild>
+                <SidebarMenuButton
+                  asChild
+                  isActive={location.pathname === item.href}
+                  onClick={() => {
+                    if (isMobile) setOpenMobile(false);
+                  }}
+                >
                   <Link to={item.href}>
                     <item.icon />
                     <span>{item.label}</span>
