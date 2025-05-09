@@ -1,6 +1,5 @@
 import { database, Query } from '@/lib/appwrite';
 import { getUserId } from '@/lib/utils';
-import { startOfToday } from 'date-fns';
 import { LoaderFunction } from 'react-router';
 
 // Environment Variables
@@ -11,10 +10,7 @@ const getTasks = async () => {
     const userId = getUserId() as string;
 
     return await database.listDocuments(APPWRITE_DATABASE_ID, 'tasks', [
-      Query.equal('completed', false),
-      Query.isNotNull('due_date'),
-      Query.greaterThanEqual('due_date', startOfToday().toISOString()),
-      Query.orderAsc('due_date'),
+      Query.equal('completed', true),
       Query.equal('userId', userId),
     ]);
   } catch (err) {
@@ -22,10 +18,10 @@ const getTasks = async () => {
   }
 };
 
-const UpcomingLoader: LoaderFunction = async () => {
+const CompletedLoader: LoaderFunction = async () => {
   const tasks = await getTasks();
 
   return { tasks };
 };
 
-export default UpcomingLoader;
+export default CompletedLoader;

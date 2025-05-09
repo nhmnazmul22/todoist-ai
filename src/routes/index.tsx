@@ -14,9 +14,11 @@ import RegisterPage from '@/pages/RegisterPage';
 import RootErrorBoundary from '@/pages/RootErrorBoundary';
 
 // Application actions
+import CompletedPage from '@/pages/CompletedPage';
 import TodayPage from '@/pages/TodayPage';
 import UpcomingPage from '@/pages/UpcomingPage';
 import AppAction from '@/routes/actions/appActions';
+import CompletedLoader from './loaders/CompletedLoader';
 import InboxLoader from './loaders/InboxLoader';
 import TodayTaskLoader from './loaders/TodayTaskLoader';
 import UpcomingLoader from './loaders/UpcomingLoader';
@@ -58,6 +60,11 @@ const AppChildrenRoutes: RouteObject[] = [
     path: 'upcoming',
     element: <UpcomingPage />,
     loader: UpcomingLoader,
+  },
+  {
+    path: 'completed',
+    element: <CompletedPage />,
+    loader: CompletedLoader,
   },
 ];
 
