@@ -29,6 +29,7 @@ import { SIDEBAR_LINKS } from '@/constant';
 import { UserButton } from '@clerk/clerk-react';
 import { ChevronRight, Plus, PlusCircle } from 'lucide-react';
 import { Link, useLocation } from 'react-router';
+import ProjectFormDialog from '../main/ProjectFormDialog';
 
 const AppSidebar = () => {
   const location = useLocation();
@@ -89,11 +90,13 @@ const AppSidebar = () => {
                 </SidebarGroupLabel>
 
                 <Tooltip>
-                  <TooltipTrigger asChild>
-                    <SidebarGroupAction aria-label='add Todo'>
-                      <Plus />
-                    </SidebarGroupAction>
-                  </TooltipTrigger>
+                  <ProjectFormDialog method='POST'>
+                    <TooltipTrigger asChild>
+                      <SidebarGroupAction aria-label='add Todo'>
+                        <Plus />
+                      </SidebarGroupAction>
+                    </TooltipTrigger>
+                  </ProjectFormDialog>
                   <TooltipContent side='right'>Add Project</TooltipContent>
                 </Tooltip>
 

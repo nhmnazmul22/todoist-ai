@@ -18,6 +18,7 @@ import CompletedPage from '@/pages/CompletedPage';
 import TodayPage from '@/pages/TodayPage';
 import UpcomingPage from '@/pages/UpcomingPage';
 import AppAction from '@/routes/actions/appActions';
+import projectActions from './actions/projectAction';
 import CompletedLoader from './loaders/CompletedLoader';
 import InboxLoader from './loaders/InboxLoader';
 import TodayTaskLoader from './loaders/TodayTaskLoader';
@@ -65,6 +66,10 @@ const AppChildrenRoutes: RouteObject[] = [
     path: 'completed',
     element: <CompletedPage />,
     loader: CompletedLoader,
+  },
+  {
+    path: 'project',
+    action: projectActions,
   },
 ];
 

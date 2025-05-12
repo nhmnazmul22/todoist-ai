@@ -128,7 +128,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
               )}
             />
           </Button>
-          <Card className='rounded-none border-none bg-transparent gap-0 py-2 space-y-1.5 flex-1'>
+          <Card className='rounded-none border-none bg-transparent gap-0 py-2 space-y-1.5 flex-1 shadow-none'>
             <CardContent className='p-0'>
               <p
                 id='task-content'
