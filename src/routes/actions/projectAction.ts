@@ -1,7 +1,7 @@
 import { database } from '@/lib/appwrite';
 import generateAiTask from '@/lib/googleAi';
 import { generateId, getUserId } from '@/lib/utils';
-import { ProjectForm } from '@/types';
+import { Project, ProjectForm } from '@/types';
 import { Models } from 'appwrite';
 import { ActionFunction, redirect } from 'react-router';
 
@@ -85,11 +85,29 @@ const createProject = async (data: ProjectForm) => {
   return redirect(`/app/project/${project?.$id}`);
 };
 
+const deleteProject = async (data: Project) => {
+  const documentId = data.id;
+
+  if(!documentId) throw new Error("Project not found!");
+
+  try{
+ 
+  }catch(err){
+   console.log("Error")
+  }
+
+
+};
+
 const projectActions: ActionFunction = async ({ request }) => {
   const data = (await request.json()) as ProjectForm;
 
   if (request.method === 'POST') {
     return await createProject(data);
+  }
+
+  if (request.method === 'DELETE') {
+    return await deleteProject(data);
   }
 
   return null;
