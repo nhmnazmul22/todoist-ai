@@ -15,12 +15,14 @@ import RootErrorBoundary from '@/pages/RootErrorBoundary';
 
 // Application actions
 import CompletedPage from '@/pages/CompletedPage';
+import ProjectsPage from '@/pages/ProjectsPage';
 import TodayPage from '@/pages/TodayPage';
 import UpcomingPage from '@/pages/UpcomingPage';
 import AppAction from '@/routes/actions/appActions';
 import projectActions from './actions/projectAction';
 import CompletedLoader from './loaders/CompletedLoader';
 import InboxLoader from './loaders/InboxLoader';
+import projectLoader from './loaders/ProjectLoader';
 import TodayTaskLoader from './loaders/TodayTaskLoader';
 import UpcomingLoader from './loaders/UpcomingLoader';
 
@@ -69,7 +71,9 @@ const AppChildrenRoutes: RouteObject[] = [
   },
   {
     path: 'project',
+    element: <ProjectsPage />,
     action: projectActions,
+    loader: projectLoader,
   },
 ];
 

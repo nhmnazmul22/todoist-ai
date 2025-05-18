@@ -1,6 +1,8 @@
+import { truncateText } from '@/lib/utils';
 import { Project, ProjectForm } from '@/types';
 import { useState } from 'react';
 import { useFetcher } from 'react-router';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
@@ -29,7 +31,7 @@ const ProjectFormDialog: React.FC<ProjectFormDialogType> = ({
       onOpenChange={setDialogOpen}
     >
       <DialogTitle></DialogTitle>
-      <DialogTrigger>{children}</DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         className='px-0 py-0'
         aria-describedby={undefined}
@@ -40,10 +42,17 @@ const ProjectFormDialog: React.FC<ProjectFormDialogType> = ({
           onCancel={() => setDialogOpen(false)}
           onSubmit={async (formData: ProjectForm) => {
             setDialogOpen(false);
+
+            toast(
+              `Project is ${method === 'POST' ? 'Creating...' : 'Updating...'}`,
+            );
             await fetcher.submit(JSON.stringify(formData), {
               method,
               action: '/app/project',
               encType: 'application/json',
+            });
+            toast(`Project is ${method === 'POST' ? 'Created' : 'Updated'}`, {
+              description: `The project ${truncateText(formData.name, 32)} and its tasks ${method === 'POST' ? 'created' : 'updated'} successfully `,
             });
           }}
         />

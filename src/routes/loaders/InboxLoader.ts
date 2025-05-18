@@ -21,7 +21,7 @@ const getTasks = async () => {
 
 const InboxLoader: LoaderFunction = async () => {
   const tasks = await getTasks();
-
+  console.log(tasks);
   return { tasks };
 };
 
